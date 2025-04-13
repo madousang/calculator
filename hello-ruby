@@ -1,0 +1,15 @@
+pipeline {
+    agent {
+        docker {
+            image 'exo-jenkins-slave-ruby' // Ton image Docker
+            //args '-v /tmp:/tmp'           // Optionnel : monte un volume
+        }
+    }
+    stages {
+        stage('Hello Ruby') {
+            steps {
+                sh 'ruby -e "puts \'Hello World from Ruby!\'"'
+            }
+        }
+    }
+}
