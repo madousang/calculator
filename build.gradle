@@ -38,3 +38,7 @@ jacocoTestCoverageVerification {
         }
     }
 }
+
+apply plugin: 'checkstyle'
+
+
