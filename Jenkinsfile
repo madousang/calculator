@@ -36,5 +36,17 @@ pipeline {
                 ])
             }
         }
+        stage("Package") {
+            steps {
+                echo "Packaging..."
+                sh "./gradlew build"
+            }
+        }
+        stage("Docker build") {
+             steps {
+                 echo "Docker build..."
+                 sh "docker build -t madou0178/calculator ."
+             }
+        }
     }
 }
