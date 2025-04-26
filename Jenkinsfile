@@ -51,7 +51,7 @@ pipeline {
         stage("Docker push") {
              steps {
                 echo "Docker push image on docker Hub..."
-                sh "docker login --username madou0178 --password MSangare017820"
+                sh "docker login"
                 sh "docker push madou0178/calculator"
             }
         }
