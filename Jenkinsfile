@@ -48,5 +48,12 @@ pipeline {
                  sh "docker build -t madou0178/calculator ."
              }
         }
+        stage("Docker push") {
+             steps {
+                echo "Docker push image on docker Hub..."
+                sh "docker login --username madou0178 --password MSangare017820"
+                sh "docker push madou0178/calculator"
+            }
+        }
     }
 }
