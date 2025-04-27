@@ -67,11 +67,11 @@ pipeline {
                 sleep 60
                 sh "./acceptance_test.sh"
             }
-        }
-        post {
-            always {
-                echo "Destroy container App Calculator"
-                sh "docker stop calculator"
+            post {
+                always {
+                    echo "Destroy container App Calculator"
+                    sh "docker stop calculator"
+                }
             }
         }
     }
