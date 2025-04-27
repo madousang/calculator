@@ -55,5 +55,24 @@ pipeline {
                 sh "docker push madou0178/calculator"
             }
         }
+        stage("Deploy to staging") {
+             steps {
+                echo "Deploy container Calculator App on test environment"
+                sh "docker run -d --rm -p 8081:8080 --name calculator madou0178/calculator"
+             }
+        }
+        stage("Acceptance test") {
+            steps {
+                echo "Exec Acceptance test"
+                sleep 60
+                sh "./acceptance_test.sh"
+            }
+        }
+        post {
+            always {
+                echo "Destroy container App Calculator"
+                sh "docker stop calculator"
+            }
+        }
     }
 }
