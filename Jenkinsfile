@@ -10,7 +10,7 @@ pipeline {
         stage("Unit test") {
             steps {
                 echo "Unit test..."
-                 sh "./gradlew test"
+                sh "./gradlew test"
             }
         }
         stage("Code coverage") {
@@ -18,9 +18,9 @@ pipeline {
                 echo "Code coverage..."
                 sh "./gradlew jacocoTestReport"
                 publishHTML (target: [
-                reportDir: 'build/reports/jacoco/test/html',
-                reportFiles: 'index.html',
-                reportName: "JaCoCo Report"
+                    reportDir: 'build/reports/jacoco/test/html',
+                    reportFiles: 'index.html',
+                    reportName: "JaCoCo Report"
                 ])
                 sh "./gradlew jacocoTestCoverageVerification"
             }
@@ -30,9 +30,9 @@ pipeline {
                 echo "Static code analysis..."
                 sh "./gradlew checkstyleMain"
                 publishHTML (target: [
-                 reportDir: 'build/reports/checkstyle/',
-                 reportFiles: 'main.html',
-                 reportName: "Checkstyle Report"
+                    reportDir: 'build/reports/checkstyle/',
+                    reportFiles: 'main.html',
+                    reportName: "Checkstyle Report"
                 ])
             }
         }
@@ -43,23 +43,28 @@ pipeline {
             }
         }
         stage("Docker build") {
-             steps {
-                 echo "Docker build..."
-                 sh "docker build -t madou0178/calculator ."
-             }
+            steps {
+                echo "Docker build..."
+                sh "docker build -t madou0178/calculator ."
+            }
+            post {
+                failure {
+                    echo "Docker build failed. Cleaning up..."
+                }
+            }
         }
         stage("Docker push") {
-             steps {
-                echo "Docker push image on docker Hub..."
-                sh "docker login"
+            steps {
+                echo "Docker push image on Docker Hub..."
+                sh "echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin"
                 sh "docker push madou0178/calculator"
             }
         }
         stage("Deploy to staging") {
-             steps {
+            steps {
                 echo "Deploy container Calculator App on test environment"
                 sh "docker run -d --rm -p 8081:8080 --name calculator madou0178/calculator"
-             }
+            }
         }
         stage("Acceptance test") {
             steps {
@@ -70,7 +75,7 @@ pipeline {
             post {
                 always {
                     echo "Destroy container App Calculator"
-                    sh "docker stop calculator"
+                    sh "docker stop calculator || true"
                 }
             }
         }
