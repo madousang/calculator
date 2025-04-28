@@ -63,7 +63,7 @@ pipeline {
         stage("Deploy to staging") {
             steps {
                 echo "Deploy container Calculator App on test environment"
-                sh "docker run -d --rm -p 8081:8080 --name calculator madou0178/calculator"
+                sh "docker run -d --rm -p 8081:8081 --name calculator madou0178/calculator"
             }
         }
         stage("Acceptance test") {
