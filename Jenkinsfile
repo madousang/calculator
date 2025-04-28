@@ -56,7 +56,7 @@ pipeline {
         stage("Docker push") {
             steps {
                 echo "Docker push image on Docker Hub..."
-                sh "echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin"
+                sh "docker login"
                 sh "docker push madou0178/calculator"
             }
         }
