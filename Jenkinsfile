@@ -70,6 +70,7 @@ pipeline {
             steps {
                 echo "Exec Acceptance test"
                 sleep 60
+                sh "docker logs calculator"
                 sh "./acceptance_test.sh"
             }
             post {
