@@ -3,7 +3,8 @@ services:
    calculator:
         build: .
         ports:
-             - 8081
-  
+             - "8081:8081"
+        depends_on:
+             - redis
    redis:
         image: redis:latest
