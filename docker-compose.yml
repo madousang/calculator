@@ -4,12 +4,12 @@ services:
     build:
       context: .
     ports:
-      - "8081:8081"
-    environment:
-      - SPRING_REDIS_HOST=redis
+      - "8080:8080"
     depends_on:
       - redis
-
+    environment:
+      - SPRING_REDIS_HOST=redis
+    
   redis:
     image: redis:latest
     ports:
