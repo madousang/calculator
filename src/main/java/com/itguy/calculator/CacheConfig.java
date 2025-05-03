@@ -11,20 +11,24 @@ import org.springframework.data.redis.cache.RedisCacheWriter;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.beans.factory.annotation.Value;
 
 /** Cache config. */
 @Configuration
 @EnableCaching
 public class CacheConfig extends CachingConfigurerSupport {
-    private static final String REDIS_ADDRESS = "redis";
- 
+    
+    @Value("${spring.data.redis.host:redis}")
+    private String redisHost;
+
+    @Value("${spring.data.redis.port:6379}")
+    private int redisPort;
+
     @Bean
     public JedisConnectionFactory redisConnectionFactory() {
         JedisConnectionFactory redisConnectionFactory = new JedisConnectionFactory();
-        String redisHost = System.getenv("SPRING_REDIS_HOST");
-        int redisPort = Integer.parseInt(System.getenv("SPRING_REDIS_PORT"));
-        redisConnectionFactory.setHostName(redisHost != null ? redisHost : REDIS_ADDRESS);
-        redisConnectionFactory.setPort(redisPort > 0 ? redisPort : 6379);
+        redisConnectionFactory.setHostName(redisHost);
+        redisConnectionFactory.setPort(redisPort);
         return redisConnectionFactory;
     }
     

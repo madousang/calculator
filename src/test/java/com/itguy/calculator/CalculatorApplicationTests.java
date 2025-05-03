@@ -2,15 +2,13 @@ package com.itguy.calculator;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
 class CalculatorApplicationTests {
 
-	private Calculator calculator = new Calculator();
+	private final Calculator calculator = new Calculator();
+
 	@Test
-	public void testSum() {
+	void testSum() {
 		assertEquals(5, calculator.sum(2, 3));
 	}
-
 }
