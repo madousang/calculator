@@ -45,7 +45,7 @@ pipeline {
         stage("Docker build") {
             steps {
                 echo "Docker build..."
-                sh "docker build -t madou0178/calculator ."
+                sh "docker-compose build -t madou0178/calculator ."
             }
             post {
                 failure {
@@ -57,13 +57,13 @@ pipeline {
             steps {
                 echo "Docker push image on Docker Hub..."
                 sh "docker login"
-                sh "docker push madou0178/calculator"
+                sh "docker-compose push madou0178/calculator"
             }
         }
         stage("Deploy to staging") {
             steps {
                 echo "Deploy container Calculator App on test environment"
-                sh "docker run -d --rm -p 8081:8081 --name calculator madou0178/calculator"
+                sh "docker-compose up --build -d"
             }
         }
         stage("Acceptance test") {
@@ -76,7 +76,7 @@ pipeline {
             post {
                 always {
                     echo "Destroy container App Calculator"
-                    sh "docker stop calculator || true"
+                    sh "docker-compose down"
                 }
             }
         }

@@ -1,14 +1,15 @@
 #!/bin/bash
 
+# Récupérer dynamiquement le port exposé par le service calculator via Docker Compose
+CALCULATOR_PORT=$(docker-compose port calculator 8080 | cut -d: -f2)
+
 # Tentatives de connexion (jusqu'à 10 fois)
 for i in {1..10}; do
-    # Essayer de récupérer la réponse avec curl
-    response=$(curl -sf http://localhost:8081/sum?a=1\&b=2)
+    response=$(curl -sf http://localhost:${CALCULATOR_PORT}/sum?a=1\&b=2)
 
     if [[ $? -eq 0 && -n "$response" ]]; then
         echo "Réponse de l'app : $response"
 
-        # Vérifier que la réponse est 3
         if [ "$response" -eq 3 ]; then
             echo "Test d'acceptance réussi ✅"
             exit 0
@@ -18,7 +19,7 @@ for i in {1..10}; do
         fi
     else
         echo "App non disponible (tentative $i/10)..."
-        sleep 20  # Un peu moins long au début
+        sleep 5
     fi
 done
 
