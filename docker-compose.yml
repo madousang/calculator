@@ -7,8 +7,6 @@ services:
       - "8080:8080"
     depends_on:
       - redis
-    environment:
-      - SPRING_DATA_REDIS_HOST=redis
     networks:
       - app-network
     

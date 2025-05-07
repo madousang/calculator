@@ -6,4 +6,4 @@ RUN apt-get update && apt-get install -y wget && \
 
 COPY build/libs/calculator-0.0.1-SNAPSHOT.jar app.jar
 
-ENTRYPOINT ["dockerize", "-wait", "tcp://redis:6379", "-timeout", "30s", "java", "-jar", "app.jar"]
+ENTRYPOINT ["dockerize", "-wait", "tcp://redis:6379", "-timeout", "30s", "--", "java", "-jar", "app.jar"]

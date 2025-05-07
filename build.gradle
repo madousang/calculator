@@ -29,6 +29,10 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
+bootJar {
+    dependsOn processResources
+}
+
 apply plugin: "jacoco"
 
 jacocoTestCoverageVerification {
